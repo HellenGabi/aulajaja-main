@@ -2,34 +2,78 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PeopleScreen extends StatefulWidget {
-  final String username;
-  const PeopleScreen({required this.username});
+  const PeopleScreen({Key? key}) : super(key: key);
 
   @override
   State<PeopleScreen> createState() => _PeopleScreenState();
 }
 
 class _PeopleScreenState extends State<PeopleScreen> {
-  List<Map<String, dynamic>> users = [];
+  List<Map<String, dynamic>> allUsers = [];
+  List<Map<String, dynamic>> displayedUsers = [];
   bool loading = true;
+
+  String currentUsername = '';
+  String currentUserId = '';
 
   @override
   void initState() {
     super.initState();
-    fetchUsersFromSupabase();
+    getCurrentUserInfo();
+  }
+
+  Future<void> getCurrentUserInfo() async {
+    final user = Supabase.instance.client.auth.currentUser;
+
+    if (user != null) {
+      currentUserId = user.id;
+
+      final data = await Supabase.instance.client
+          .from('Perfis')
+          .select('username')
+          .eq('id', user.id)
+          .maybeSingle();
+
+      setState(() {
+        currentUsername = data?['username'] ?? user.email ?? 'Usuário';
+      });
+
+      await fetchUsersFromSupabase();
+    }
   }
 
   Future<void> fetchUsersFromSupabase() async {
-    final data = await Supabase.instance.client
-        .from('profiles')
-        .select('username, email');
+    try {
+      final response = await Supabase.instance.client
+          .from('Perfis')
+          .select('username, email, id');
 
-    setState(() {
-      users = List<Map<String, dynamic>>.from(data)
-          .where((user) => user['username'] != widget.username)
-          .toList();
-      loading = false;
-    });
+      if (response != null && response is List) {
+        final List<Map<String, dynamic>> usersList = List<Map<String, dynamic>>.from(response);
+
+        final filteredUsers = usersList
+            .where((user) => user['id'] != currentUserId)
+            .toList();
+
+        setState(() {
+          allUsers = filteredUsers;
+          displayedUsers = filteredUsers;
+          loading = false;
+        });
+      } else {
+        setState(() {
+          allUsers = [];
+          displayedUsers = [];
+          loading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        allUsers = [];
+        displayedUsers = [];
+        loading = false;
+      });
+    }
   }
 
   void showUserDetails(String username, String email) {
@@ -55,28 +99,42 @@ class _PeopleScreenState extends State<PeopleScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.blue,
+                  width: double.infinity,
+                  child: Text(
+                    'Bem-vindo, $currentUsername',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextField(
                     decoration: const InputDecoration(labelText: 'Buscar'),
                     onChanged: (value) {
-                      final filtered = users.where((user) =>
-                          user['username']
-                              .toString()
-                              .toLowerCase()
-                              .contains(value.toLowerCase()));
-                      setState(() => users = filtered.toList());
+                      final filtered = allUsers.where((user) {
+                        final username = user['username'] ?? '';
+                        return username.toString().toLowerCase().contains(value.toLowerCase());
+                      }).toList();
+
+                      setState(() => displayedUsers = filtered);
                     },
                   ),
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: users.length,
+                    itemCount: displayedUsers.length,
                     itemBuilder: (_, index) {
-                      final user = users[index];
+                      final user = displayedUsers[index];
                       return ListTile(
                         leading: const Icon(Icons.person),
                         title: Text(user['username'] ?? 'Sem nome'),
+                        subtitle: Text(user['email'] ?? 'Sem email'),
                         onTap: () => showUserDetails(
                           user['username'] ?? 'Sem nome',
                           user['email'] ?? 'Sem email',

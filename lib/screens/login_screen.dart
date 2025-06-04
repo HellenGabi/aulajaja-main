@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'main_screen.dart';
-import 'register_screen.dart'; 
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -27,19 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
       final user = res.user;
       if (user == null) throw Exception('Usuário não encontrado');
 
-      final profile = await Supabase.instance.client
-          .from('profiles')
-          .select('username')
-          .eq('id', user.id)
-          .maybeSingle();
-
-      final username = profile == null
-          ? emailController.text.trim()
-          : (profile['username'] as String? ?? emailController.text.trim());
-
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => MainScreen(username: username)),
+        MaterialPageRoute(builder: (_) => const MainScreen()),
       );
     } on AuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -119,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => RegisterScreen()),
+                    MaterialPageRoute(builder: (_) =>  RegisterScreen()),
                   );
                 },
                 child: const Text(

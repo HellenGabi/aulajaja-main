@@ -4,11 +4,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'home_screen.dart';
 import 'activities_screen.dart';
 import 'people_screen.dart';
-import 'login_screen.dart'; 
+import 'login_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  final String username;
-  const MainScreen({Key? key, required this.username}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -16,17 +15,44 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 1;
-
   late final List<Widget> _screens;
+
+  String currentUsername = '';
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
+
+    // ✅ Inicialize aqui
     _screens = [
-       ActivitiesScreen(),
-       HomeScreen(),
-      PeopleScreen(username: widget.username),
+      ActivitiesScreen(),
+      HomeScreen(),
+      PeopleScreen(),
     ];
+
+    fetchCurrentUsername();
+  }
+
+  Future<void> fetchCurrentUsername() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      final profile = await Supabase.instance.client
+          .from('Perfis')
+          .select('username')
+          .eq('id', user.id)
+          .maybeSingle();
+
+      setState(() {
+        currentUsername = profile?['username'] ?? user.email ?? 'Usuário';
+        loading = false;
+      });
+    } else {
+      setState(() {
+        currentUsername = 'Usuário';
+        loading = false;
+      });
+    }
   }
 
   void _onItemTapped(int index) {
@@ -48,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bem-vindo, ${widget.username}'),
+        title: Text('Bem-vindo, ${loading ? '...' : currentUsername}'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         actions: [
@@ -59,7 +85,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: _screens[_selectedIndex],
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
