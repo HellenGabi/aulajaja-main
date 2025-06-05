@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PeopleScreen extends StatefulWidget {
-  const PeopleScreen({Key? key}) : super(key: key);
+  const PeopleScreen({super.key});
 
   @override
   State<PeopleScreen> createState() => _PeopleScreenState();
@@ -23,24 +23,25 @@ class _PeopleScreenState extends State<PeopleScreen> {
   }
 
   Future<void> getCurrentUserInfo() async {
-    final user = Supabase.instance.client.auth.currentUser;
+  final user = Supabase.instance.client.auth.currentUser;
 
-    if (user != null) {
-      currentUserId = user.id;
+  if (user != null) {
+    currentUserId = user.id;
 
-      final data = await Supabase.instance.client
-          .from('Perfis')
-          .select('username')
-          .eq('id', user.id)
-          .maybeSingle();
+    final data = await Supabase.instance.client
+        .from('Perfis')
+        .select('username')
+        .eq('id', user.id) 
+        .maybeSingle();
 
-      setState(() {
-        currentUsername = data?['username'] ?? user.email ?? 'Usuário';
-      });
+    setState(() {
+      currentUsername = data?['username'] ?? user.email ?? 'Usuário';
+    });
 
-      await fetchUsersFromSupabase();
-    }
+    await fetchUsersFromSupabase();
   }
+}
+
 
   Future<void> fetchUsersFromSupabase() async {
     try {
@@ -48,26 +49,20 @@ class _PeopleScreenState extends State<PeopleScreen> {
           .from('Perfis')
           .select('username, email, id');
 
-      if (response != null && response is List) {
-        final List<Map<String, dynamic>> usersList = List<Map<String, dynamic>>.from(response);
+      final List<Map<String, dynamic>> usersList =
+          List<Map<String, dynamic>>.from(response);
 
-        final filteredUsers = usersList
-            .where((user) => user['id'] != currentUserId)
-            .toList();
+      final filteredUsers = usersList
+          .where((user) => user['id'] != currentUserId)
+          .toList();
 
-        setState(() {
-          allUsers = filteredUsers;
-          displayedUsers = filteredUsers;
-          loading = false;
-        });
-      } else {
-        setState(() {
-          allUsers = [];
-          displayedUsers = [];
-          loading = false;
-        });
-      }
-    } catch (e) {
+      setState(() {
+        allUsers = filteredUsers;
+        displayedUsers = filteredUsers;
+        loading = false;
+      });
+        } catch (e) {
+      debugPrint('Erro ao buscar usuários: $e');
       setState(() {
         allUsers = [];
         displayedUsers = [];
@@ -101,18 +96,35 @@ class _PeopleScreenState extends State<PeopleScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Bem-vindo, $currentUsername!',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextField(
                     decoration: const InputDecoration(labelText: 'Buscar'),
                     onChanged: (value) {
                       final filtered = allUsers.where((user) {
                         final username = user['username'] ?? '';
-                        return username.toString().toLowerCase().contains(value.toLowerCase());
+                        return username
+                            .toString()
+                            .toLowerCase()
+                            .contains(value.toLowerCase());
                       }).toList();
 
                       setState(() => displayedUsers = filtered);
                     },
                   ),
                 ),
+                const SizedBox(height: 8),
                 Expanded(
                   child: ListView.builder(
                     itemCount: displayedUsers.length,
