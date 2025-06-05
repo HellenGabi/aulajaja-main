@@ -1,1 +1,95 @@
+= 📓 AULAJAJA 
+:icons: font
+:toc: left
+:toclevels: 2
+
+== 📝 Descrição
+AULAJAJA é um aplicativo simples e intuitivo para o ambiente escolar. Inspirado no Google Classroom, ele mantém as funções principais de gestão de classe, mas com um design mais fácil de usar, tornando a interação entre estudantes, professores e administradores mais prática e eficiente.
+
+== 🎯 Objetivo do Projeto
+O objetivo do AULAJAJA é criar uma plataforma digital simples e acessível para facilitar a gestão escolar, melhorando a comunicação entre alunos e professores, o acompanhamento de tarefas de forma intuitiva e prática.
+
+== 🚀 Recursos
+Nosso protótipo é composto pelas seguintes telas:
+
+* 📲 **Tela de Login:** onde o usuário informa seu nome de usuário e senha para acessar o sistema.
+
+* 🔐 **Tela de Cadastro:** onde o usuário pode criar uma nova conta, fornecendo nome de usuário, senha e confirmação da senha.
+
+* 📱 **Tela Principal/Mural:** apresenta o calendário completo, onde o usuário pode visualizar provas e atividades futuras, onde pode ser incrementado. Essa tela utilizará uma API de calendário para integrar e exibir esses dados. Também possui um botão no canto superior esquerdo para retornar à tela principal. Na parte inferior da tela, há três botões: Atividades, Mural e Pessoas.
+
+* 📒 **Tela de Atividades:** exibe uma lista com atividades fictícias. No canto superior esquerdo há uma seta para retornar à tela principal.
+
+* ✒️ **Tela Detalhes da Atividades:** vai exibir os detalhes das atividades, conforme a atividade que o usuario escolha.
+
+* 👨🏽👩🏽 **Tela de Pessoas:** mostra diversos cards com os perfis das pessoas cadastradas no aplicativo. Essa tela obterá os dados por meio de uma API que puxa as informações relevantes para a listagem.
+
+== 📱 **Screenshots**
+image::uhul.gif[Exemplo de GIF]
+
+== 📚 **Dependências**
+
+  * sdk: flutter
+  * supabase_flutter: ^2.9.0
+  * shared_preferences: ^2.2.2
+  * table_calendar: ^3.0.9
+  * cupertino_icons: ^1.0.8
+  * flutter_secure_storage: ^9.2.4
+  * flutter_lints: ^4.0.0
+  * cloud_firestore: ^4.17.5
+
+== 🎮 **Como Executar**
+Para instalação do projeto é obrigatório ter o Flutter SDK e VSCode e suas extensões, como o Flutter e o Dart.
+
+Siga os passos abaixo para executar o projeto em sua máquina local:
+
+1-**Clone o repositório**
+
+Abra o terminal e digite:
+```bash
+  https://github.com/HellenGabi/Projeto-Final-Mobile-main.git
+```
+
+2-**Acesse a pasta do projeto**
+
+```bash
+cd https://github.com/HellenGabi/Projeto-Final-Mobile-main.git
+```
+
+3-**Abra o VS Code**
+
+No terminal, digite:
+```bash
+code .
+```
+
+4-**Instalar as dependências**
+
+Ainda no terminal, digite:
+```bash
+flutter pub get
+```
+
+5-**Executar o aplicativo**
+
+Conecte um emulador ou dispositivo físico, e rode o app com:
+```bash
+flutter run
+```
+
+== 🫱🏾‍🫲🏿 Integrantes do Projeto
+Nosso grupo é composto por: 
+
+*  **Hellen Gabriela Scarantti**
+https://github.com/HellenGabi
+
+*  **Paulo Henrique André**
+https://github.com/paulin3423
+
+*  **Vitor Eduardo Eleoterio**
+https://github.com/SGA-OKC
+
+== 🙏 Agradecimentos
+Agradecemos ao Prof. Matheus Quost por ajudar nos a desenvolver o projeto Final feito na Unidade Curricular de Desenvolvimento de Aplicativos Mobile. Onde foi proposto uma criação de um app Flutter com Dart, podendo escolher os temas propostos pelo professor, escolhemos fazer um app de Organizador de Estudos, contendo Tela de Login, Cadastro, Principal/Mural, Atividades, Detalhes da Atividades e Pessoas.
+
 
