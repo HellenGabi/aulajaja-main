@@ -99,19 +99,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  color: Colors.blue,
-                  width: double.infinity,
-                  child: Text(
-                    'Bem-vindo, $currentUsername',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextField(

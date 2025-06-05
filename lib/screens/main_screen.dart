@@ -73,18 +73,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Bem-vindo, ${loading ? '...' : currentUsername}'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Sair',
-            onPressed: _signOut,
-          ),
-        ],
-      ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : _screens[_selectedIndex],

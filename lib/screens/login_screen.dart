@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'main_screen.dart';
 import 'register_screen.dart';
 
@@ -54,6 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              
+              Image.asset(
+                'assets/imagens/AulajajaLogo.png',
+                height: 100, 
+              ),
+              const SizedBox(height: 24),
+
               const Text(
                 "Login",
                 style: TextStyle(
@@ -63,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 32),
+
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
@@ -75,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
+
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -88,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 30),
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -105,11 +116,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 12),
+
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) =>  RegisterScreen()),
+                    MaterialPageRoute(builder: (_) => RegisterScreen()),
                   );
                 },
                 child: const Text(
