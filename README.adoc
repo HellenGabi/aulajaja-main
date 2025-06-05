@@ -26,7 +26,7 @@ Nosso protótipo é composto pelas seguintes telas:
 
 == 📱 **Screenshots**
 
-<img src="caminho/para/imagem.png" alt="Cadastro" width="200"/>
+image::main/aulajaja.gif[Cadastro, width=200]
 
 == 📚 **Dependências**
 
