@@ -26,7 +26,7 @@ Nosso protótipo é composto pelas seguintes telas:
 
 == 📱 **Screenshots**
 
-image::main/aulajaja.gif[alt=Cadastro, width=200px]
+image::aulajaja.gif[alt=Cadastro, width=200px]
 
 == 📚 **Dependências**
 
