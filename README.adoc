@@ -57,21 +57,14 @@ git clone https://github.com/HellenGabi/aulajaja-main.git
 cd aulajaja-main
 ```
 
-3-**Abra o VS Code**
-
-No terminal, digite:
-```bash
-code .
-```
-
-4-**Instalar as dependências**
+3-**Instalar as dependências**
 
 Ainda no terminal, digite:
 ```bash
 flutter pub get
 ```
 
-5-**Executar o aplicativo**
+4-**Executar o aplicativo**
 
 Conecte um emulador ou dispositivo físico, e rode o app com:
 ```bash
