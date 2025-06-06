@@ -48,7 +48,7 @@ Siga os passos abaixo para executar o projeto em sua máquina local:
 
 Abra o terminal e digite:
 ```bash
-https://github.com/HellenGabi/aulajaja-main.git
+git clone https://github.com/HellenGabi/aulajaja-main.git
 ```
 
 2-**Acesse a pasta do projeto**
