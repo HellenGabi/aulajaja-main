@@ -54,7 +54,7 @@ https://github.com/HellenGabi/aulajaja-main.git
 2-**Acesse a pasta do projeto**
 
 ```bash
-cd https://github.com/HellenGabi/aulajaja-main.git
+cd aulajaja-main
 ```
 
 3-**Abra o VS Code**
